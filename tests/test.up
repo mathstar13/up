@@ -1,0 +1,9 @@
+VAR test
+START program
+VAR dt
+WRITE Yay Yay->test
+READ test.txt->dt
+COMMAND d=stdout
+ADDATTRIBUTE d,$dt
+EXECUTE d
+END program

@@ -1,0 +1,21 @@
+METHOD stdout
+START stdout
+SYSRUN echo $0
+END stdout
+METHOD stdin
+START stdin
+VAR dt
+SYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp
+READ $pid.stdin.uptmp->dt
+SYSRUN $execpath/rmd $pid.stdin.uptmp
+RETURN $dt
+END stdin
+/*VAR dt
+COMMAND d=stdin
+ADDATTRIBUTE d,a
+EXECUTE d->dt
+CLEAR d
+COMMAND d=stdout
+ADDATTRIBUTE d,$dt
+EXECUTE d*/
+gvar

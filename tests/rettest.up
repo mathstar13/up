@@ -1,0 +1,12 @@
+INCLUDE stdout.up
+METHOD tc
+START tc
+RETURN Yeet
+END tc
+VAR dt
+COMMAND d=tc
+EXECUTE d->dt
+GLOBAL dt
+COMMAND dat=stdout
+ADDATTRIBUTE dat,$dt
+EXECUTE dat

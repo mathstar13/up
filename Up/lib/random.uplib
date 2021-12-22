@@ -1,0 +1,8 @@
+METHOD randint
+START randint
+VAR dat
+SYSRUN $execpath/random/index $0 $1 $pid.random$0$1.uptmp 
+READ $pid.random$0$1.uptmp->dat
+SYSRUN $execpath/rmd $pid.random$0$1.uptmp
+RETURN $dat
+END randint

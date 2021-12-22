@@ -1,0 +1,18 @@
+METHOD combine
+START combine
+VAR dt
+SYSRUN $execpath/combine/index $0 $1 $pid.combine.uptmp
+READ $pid.combine.uptmp->dt
+SYSRUN $execpath/rmd $pid.combine.uptmp
+RETURN $dt
+END combine
+/*COMMAND d=combine
+VAR dt
+ADDATTRIBUTE d, Test 
+ADDATTRIBUTE d, YAY!!!
+EXECUTE d->dt
+COMMAND d=stdout
+ADDATTRIBUTE d,$dt
+EXECUTE d
+COMMAND d=stdout*/
+gvar
