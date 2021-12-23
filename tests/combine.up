@@ -1,14 +1,10 @@
 METHOD combine
 START combine
-VAR dt
-SYSRUN $execpath/combine/index $0 $1 $pid.combine.uptmp
-READ $pid.combine.uptmp->dt
-SYSRUN $execpath/rmd $pid.combine.uptmp
-RETURN $dt
+RETURN $0$1
 END combine
 /*COMMAND d=combine
 VAR dt
-ADDATTRIBUTE d, Test 
+ADDATTRIBUTE d,Test
 ADDATTRIBUTE d, YAY!!!
 EXECUTE d->dt
 COMMAND d=stdout
