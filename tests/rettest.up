@@ -1,7 +1,5 @@
-INCLUDE stdout.up
 METHOD tc
 START tc
-RETURN Yeet
 END tc
 VAR dt
 COMMAND d=tc

@@ -1,0 +1,5 @@
+METHOD fwrite
+METHOD fread
+START fwrite
+SYSRUN $execpath/filewrite/index.bat $0 $1
+END write

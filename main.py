@@ -3,9 +3,9 @@ from random import randint
 import re
 from ast import literal_eval as le
 pid = randint(1,999999999999999999999999999999)
-d = {'atc':'','sc':0,'method':False,'global':False,'atcd':{'global':False},'ret':False,'retd':'','dir':'D:\\Me\\Python\\langs\\up\\Up'}
-var = {'program':['method',''],'stdout':['method', 'SYSRUN echo $0\n'],'execpath':['var',f'{d["dir"]}/exec/bat'],'pid':['var',pid],'combine': ['method', 'RETURN $0$1\n'], 'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n'],'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n']}
+d = {'atc':'','sc':0,'method':False,'global':False,'atcd':{'global':False},'ret':False,'retd':'','dir':r'C:\Users\alexa\Documents\coding\python\up\Up'}
 gvar = {'program':['method',''],'stdout':['method', 'SYSRUN echo $0\n'],'execpath':['var',f'{d["dir"]}/exec/bat'],'pid':['var',pid],'combine': ['method', 'RETURN $0$1\n'], 'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n'],'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n']}
+var = gvar
 def format(txt):
 	#txt = txt.replace(r'\$',r'\dollar')
 	for item in sort(var).keys():
@@ -27,6 +27,12 @@ def error(n,t):
 	import sys
 	print(n+': '+t)
 	sys.exit(1)
+def arrwrec(v,a,end):
+	try:
+		v[a] = arrwrec(v,a,end)
+	except:
+		v[a] = end
+	return v
 def parse(code):
 	global var
 	code = re.sub(r'//[^\n]*','',code)
@@ -93,6 +99,13 @@ def parse(code):
 			if d['global']:
 				gvar[code[1]] = ['var','']
 			var[code[1]] = ['var','']
+		elif cmd == 'ARRAY':
+			setvar(code[1],'array',[])
+		elif cmd == 'ARRAY_WRITE':
+			dt = ncmd.split('->')
+			txt = format(dt[0])
+			loc = dt[1].split('-')
+
 		elif cmd == 'CLEAR':
 			del var[code[1]]
 		elif cmd == 'GLOBAL':
