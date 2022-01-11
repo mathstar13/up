@@ -6,10 +6,13 @@ pid = randint(1,999999999999999999999999999999)
 d = {'atc':'','sc':0,'method':False,'global':False,'atcd':{'global':False},'ret':False,'retd':'','dir':r'C:\Users\alexa\Documents\coding\python\up\Up'}
 gvar = {'program':['method',''],'stdout':['method', 'SYSRUN echo $0\n'],'execpath':['var',f'{d["dir"]}/exec/bat'],'pid':['var',pid],'combine': ['method', 'RETURN $0$1\n'], 'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n'],'stdin': ['method', 'VAR dt\nSYSRUN $execpath/stdin/stdin $0 $pid.stdin.uptmp\nREAD $pid.stdin.uptmp->dt\nSYSRUN $execpath/rmd $pid.stdin.uptmp\nRETURN $dt\n']}
 var = gvar
-def format(txt):
+def format(txt,aq=False):
 	#txt = txt.replace(r'\$',r'\dollar')
 	for item in sort(var).keys():
-		txt = txt.replace(f'${item}',str(var[item][1]))
+		if not aq:
+			txt = txt.replace(f'${item}',str(var[item][1]))
+		else:
+			txt = txt.replace(f'${item}',"'''"+str(var[item][1])+"'''")
 	#txt = txt.replace(r'\dollar','$')
 	#txt = txt.replace(r'\n','\n')
 	return txt
@@ -123,10 +126,25 @@ def parse(code):
 				cnt += 1
 			dt = code[1].split(',')[1]+dat
 			var[code[1].split(',')[0]][1][2].append(format(dt))
+		elif cmd == 'IF':
+			setvar(ncmd,'if','')
+		elif cmd == 'IFC':
+			n = ncmd.split(',')[0]
+			c = ncmd.replace(n+',','',1)
+			var[n][1] = format(c,True)
+		elif cmd == 'IFE':
+			n = ncmd.split(',')[0]
+			c = ncmd.replace(n+',','',1)
+			if (eval(var[n][1])):
+				p(f'COMMAND {c}_exec={c}\nEXECUTE {c}_exec')
 		elif cmd == 'INCLUDE':
 			p(open(format(code[1])).read())
 		elif cmd == 'INCLUDELIB':
 			p(open(d['dir']+'/lib/'+format(code[1])+'.uplib').read())
+		elif cmd == 'INCLUDEPKG':
+			p(open(d['dir']+'/package/'+format(code[1])+'/'+format(code[1])+'.up').read())
+			n = format(code[1])
+			p(f'COMMAND {n}_execini={n}_ini\nEXECUTE {n}_execini\nCLEAR {n}_execini')
 		else:
 			print(f'CommandError: Unknown command "{cmd}".')
 			quit()

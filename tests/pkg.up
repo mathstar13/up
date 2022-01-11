@@ -1,0 +1,13 @@
+VAR a
+VAR b
+WRITE ASFG->a
+WRITE ASFG->b
+METHOD _
+START _
+COMMAND d=stdout
+ADDATTRIBUTE d,True
+EXECUTE d
+END _
+IF d
+IFC d,$a == $b
+IFE d,_

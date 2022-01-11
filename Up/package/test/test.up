@@ -1,0 +1,6 @@
+METHOD test_ini
+START test_ini
+COMMAND d=stdout
+ADDATTRIBUTE d,test
+EXECUTE d
+END test_ini
