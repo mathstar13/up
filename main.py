@@ -134,9 +134,16 @@ def parse(code):
 			var[n][1] = format(c,True)
 		elif cmd == 'IFE':
 			n = ncmd.split(',')[0]
-			c = ncmd.replace(n+',','',1)
+			c = ncmd.split(',')[1]
+			try:
+				e = ncmd.split(',')[2]
+			except IndexError:
+				e = False
 			if (eval(var[n][1])):
 				p(f'COMMAND {c}_exec={c}\nEXECUTE {c}_exec')
+			else:
+				if e:
+					p(f'COMMAND {e}_exec={e}\nEXECUTE {e}_exec')
 		elif cmd == 'INCLUDE':
 			p(open(format(code[1])).read())
 		elif cmd == 'INCLUDELIB':
